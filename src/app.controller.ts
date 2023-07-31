@@ -82,6 +82,7 @@ export class AppController {
       info: {
         name: "MyProduct",
 
+        
         //...
       },
     };
