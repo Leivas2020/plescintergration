@@ -27,4 +27,17 @@
       }
     ]
   }
-  
+  {
+    "id": "com.example.static-website",
+    "version": "1.0.0",
+    "title": "Static Website Product Provider",
+    "description": "Deploy static websites to domains.",
+    "vendor": {
+      "name": "Your Company Name",
+      "url": "https://your-company.com"
+    },
+    "ui": {
+      "icon": "icon.svg"
+    }
+  }
+ 

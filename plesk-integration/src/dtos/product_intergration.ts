@@ -1,51 +1,47 @@
 // product_interdration.ts
 import * as pleck from 'pleck';
 
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  description: string;
-}
 
-class ProductProvider {
-  private products: Product[] = [];
 
-  constructor(configPath: string) {
-    const config = pleck.load(configPath);
-    this.products = config.get('products');
+import { WebsiteHostingProduct } from './product';
+
+export class WebsiteHostingProvider {
+  private products: WebsiteHostingProduct[];
+
+  constructor() {
+    
+    this.products = [];
   }
 
-  getAllProducts(): Product[] {
+  createProduct(product: WebsiteHostingProduct): WebsiteHostingProduct {
+    this.products.push(product);
+    return product;
+  }
+
+  getProducts(): WebsiteHostingProduct[] {
     return this.products;
   }
 
-  getProductById(id: string): Product | undefined {
+  getProduct(id: string): WebsiteHostingProduct | undefined {
     return this.products.find((product) => product.id === id);
   }
 
-  addProduct(product: Product): void {
-    this.products.push(product);
-    this.saveProducts();
+  updateProduct(updatedProduct: WebsiteHostingProduct): WebsiteHostingProduct | undefined {
+    const index = this.products.findIndex((product) => product.id === updatedProduct.id);
+    if (index !== -1) {
+      this.products[index] = updatedProduct;
+      return updatedProduct;
+    }
+    return undefined;
   }
 
-  updateProduct(updatedProduct: Product): void {
-    this.products = this.products.map((product) =>
-      product.id === updatedProduct.id ? updatedProduct : product
-    );
-    this.saveProducts();
-  }
-
-  deleteProduct(id: string): void {
-    this.products = this.products.filter((product) => product.id !== id);
-    this.saveProducts();
-  }
-
-  private saveProducts(): void {
-    const config = pleck.load();
-    config.set('products', this.products);
-    config.save();
+  deleteProduct(id: string): boolean {
+    const index = this.products.findIndex((product) => product.id === id);
+    if (index !== -1) {
+      this.products.splice(index, 1);
+      return true;
+    }
+    return false;
   }
 }
 
-export default ProductProvider;
